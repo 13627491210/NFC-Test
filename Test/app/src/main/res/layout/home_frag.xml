@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/homefragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textViewDownloadinfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="119dp"
+                    android:layout_height="wrap_content"
+                    android:text="工号" />
+
+                <TextView
+                    android:id="@+id/textViewBadgeno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="textStart" />
+
+                <Button
+                    android:id="@+id/buttonGetGuid"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="发卡" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="119dp"
+                    android:layout_height="wrap_content"
+                    android:text="姓名" />
+
+                <TextView
+                    android:id="@+id/textViewName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="viewStart" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="119dp"
+                    android:layout_height="wrap_content"
+                    android:text="人员编号" />
+
+                <TextView
+                    android:id="@+id/textViewPersonid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="viewStart" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="119dp"
+                    android:layout_height="wrap_content"
+                    android:text="卡号" />
+
+                <TextView
+                    android:id="@+id/textViewCardguid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="viewStart" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="119dp"
+                    android:layout_height="wrap_content"
+                    android:text="启用日期 " />
+
+                <TextView
+                    android:id="@+id/textViewStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="viewStart" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="119dp"
+                    android:layout_height="wrap_content"
+                    android:text="结束日期" />
+
+                <TextView
+                    android:id="@+id/textViewEnd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/buttonReadcard"
+                    style="@android:style/Widget.Material.Light.Button.Inset"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="读卡" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="119dp"
+                    android:layout_height="wrap_content"
+                    android:text="卡类型" />
+
+                <TextView
+                    android:id="@+id/textViewCardType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="viewStart" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonDownloadCardinfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="下载发卡信息" />
+
+            <Button
+                android:id="@+id/buttonChangePass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ChangePass"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/buttonWriteCommon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="WriteCommon"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/buttonReadCommon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ReadCommon"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/buttonGenPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="genpass"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/editTextOldPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textCapCharacters"
+                android:text="FFFFFFFFFFFF"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/editTextNewPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/editTextBlock1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/editTextBlock2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/editTextBlock3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/editTextSec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:text="0"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/editTextGuid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="3421936035"
+                android:visibility="invisible" />
+        </LinearLayout>
+    </ScrollView>
+
+
+    </LinearLayout>

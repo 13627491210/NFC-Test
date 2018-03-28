@@ -1,0 +1,22 @@
+{
+    "path": {
+        "baseUrl": "http://114.55.58.57:9095/",
+        "loginBaseUrl": "http://114.55.58.57:9095/",
+        "getData": "api/100/table/Retrieve",
+        "getSubData": "api/100/table/RetrieveRelTableByHostRecord",
+        "saveData": "api/100/table/Save",
+        "login": "api/Account/Login",
+        "getFormDefine": "api/100/table/RetrieveFormDefine",
+        "uploadFileUrl": "http://kingofdinner.realsun.me:8081/rispweb/rispservice/SvcUploadFile2.aspx",
+        "httppath": "http://kingofdinner.realsun.me:8081/rispweb/upfiles",
+        "getColumnsDefine": "api/100/table/RetrieveColumnsDefine",
+        "clearCache": "api/100/table/ClearCache",
+        "getButton": "api/menu/GetButton",
+        "dealButton": "api/menu/DealButton",
+        "exportXls": "api/100/table/ExportTableData",
+        "fileUrl": "http://kingofdinner.realsun.me:8081/",
+        "timeOut": "api/100/table/SetTimeout"
+    },
+    "enterprisecode": "9063",
+    "setTimeOutEnable":false
+}
