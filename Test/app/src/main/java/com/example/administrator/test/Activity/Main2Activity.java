@@ -1,15 +1,20 @@
 package com.example.administrator.test.Activity;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.MifareClassic;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NfcA;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -36,6 +41,8 @@ import com.example.administrator.test.util.WebClientConnection;
 import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -100,12 +107,14 @@ public class Main2Activity extends AppCompatActivity  implements  View.OnClickLi
     private com.example.administrator.test.Model.Teacher teacher = new com.example.administrator.test.Model.Teacher();
     public ConnectionChangeReceiver mConnectivityReceiver = ConnectionChangeReceiver.getInstence();
     public static WebClientConnection systemwcc = new WebClientConnection();
-
+    private MediaPlayer mediaPlayer = new MediaPlayer();
+    private AudioManager audioMgr = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         LitePal.initialize(this);
+        initMediaPlayer();
 
         RelativeLayout view = (RelativeLayout) findViewById(R.id.main2view);
         editWinno = findViewById(R.id.editWinno);
@@ -117,7 +126,6 @@ public class Main2Activity extends AppCompatActivity  implements  View.OnClickLi
         buttonWrite = findViewById(R.id.buttonWrite);
         buttonRead = findViewById(R.id.buttonRead);
         editName = findViewById(R.id.editName);
-        editPhoto = findViewById(R.id.editPhoto);
         editTid = findViewById(R.id.editAd);
         editDateTime = findViewById(R.id.editDateTime);
         buttonDelete.setOnClickListener(this);
@@ -166,8 +174,13 @@ public class Main2Activity extends AppCompatActivity  implements  View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonGetPos: {
-                int winno = Integer.valueOf(editWinno.getText().toString());
-                getWebPosDefine(winno);
+
+                if(!mediaPlayer.isPlaying())
+                {
+                    mediaPlayer.start();
+                }
+               // int winno = Integer.valueOf(editWinno.getText().toString());
+                //getWebPosDefine(winno);
 
             }
 
@@ -263,7 +276,11 @@ public class Main2Activity extends AppCompatActivity  implements  View.OnClickLi
             String cardStr = "";
             mfcintent = intent;
             tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-
+            if(!mediaPlayer.isPlaying())
+            {
+                mediaPlayer.start();
+                mediaPlayer.setVolume(1f, 1f);
+            }
             mfc = MifareClassic.get(tag);
             if (processCardIn)
             {
@@ -293,7 +310,17 @@ public class Main2Activity extends AppCompatActivity  implements  View.OnClickLi
                                 Date datetime4 = null;
                                 Date datetime5 = null;
                                 Date datetime6 = null;
-                                String gg= "";
+                                String lasttime= "";
+                                Date starttime1 = null;
+                                Date endtime1 = null;
+                                Date starttime2 = null;
+                                Date endtime2 = null;
+                                Date starttime3 = null;
+                                Date endtime3 = null;
+                                Date starttime4 = null;
+                                Date endtime4 = null;
+                                Date starttime5 = null;
+                                Date endtime5 = null;
                                 try {
                                     //将时间转化成相同格式的Date类型
                                     String a  = fmt.format(currentTime);
@@ -309,62 +336,85 @@ public class Main2Activity extends AppCompatActivity  implements  View.OnClickLi
                                     datetime5 = fmt2.parse(e);
                                     String f  = dd+" 24:00:00";
                                     datetime6 = fmt2.parse(f);
-                                    gg = fmt.format(currentTime);
-                                    /*
-                                    datetime1 = fmt.parse(currentTime1);
-                                    datetime2 = fmt2.parse(currentTime1);
-                                    datetime3 = fmt.parse(appSector.getM_datetime());
-                                    datetime4 = fmt2.parse(appSector.getM_datetime());
-                                    datetime5 = fmt2.parse(appSector.getM_datetime()+"22:30:00");
-                                    datetime6 = fmt2.parse(appSector.getM_datetime()+"24:00:00");
-                                   */// String datetime33 = fmt2.parse(currentTime.toString());
+                                    lasttime = fmt.format(currentTime);
+                                    starttime1 = fmt.parse(dd+" 5:00:00");
+                                    endtime1 = fmt.parse(dd+" 7:00:00");
+                                    starttime2 = fmt.parse(dd+" 10:30:00");
+                                    endtime2 = fmt.parse(dd+" 13:30:00");
+                                    starttime3 = fmt.parse(dd+" 17:00:00");
+                                    endtime3 = fmt.parse(dd+" 19:00:00");
+                                    starttime4 = fmt.parse(dd+" 22:30:00");
+                                    endtime4 = fmt.parse(dd+" 24:00:00");
+                                    starttime5 = fmt.parse(dd+" 00:00:00");
+                                    endtime5 = fmt.parse(dd+" 00:30:00");
+
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                                 // Long time=(datetime3.getTime() - strbeginDate.getTime());
                                 // System.out.println("时间的差值="+time);
-                                if(datetime2.equals(datetime4)){
-                                    if((datetime1.getHours()-datetime3.getHours()>3)){
-                                        Toast.makeText(getApplicationContext(),"刷卡成功",Toast.LENGTH_SHORT).show();
-                                        System.out.println("刷卡成功");
-                                        appSector.setM_datetime(currentTime.toString());
-                                        teacher.setDatetime(currentTime);
-                                        teacher.update(cardno);
-                                    }else{
-                                        Toast.makeText(getApplicationContext(),"您已经刷过一次了！",Toast.LENGTH_SHORT).show();
-                                        System.out.println("您已经刷过一次了！");
-                                    }
-
-                                }else{
-                                    if((datetime3.getTime()-datetime5.getTime())>0&&datetime6.getTime()-datetime3.getTime()>0){
-                                        Toast.makeText(getApplicationContext(),"您已经刷过一次卡了",Toast.LENGTH_SHORT).show();
-                                        System.out.println("您已经刷过一次卡了");
-                                    }else{
-                                        Toast.makeText(getApplicationContext(),"刷卡成功",Toast.LENGTH_SHORT).show();
-                                        System.out.println("刷卡成功");
-                                        appSector.setM_datetime(gg);
-                                        appSector.WriteBizDataToSector();
-                                        teacher = CardInfoBiz.fetchTeacherinfo(cno);
-                                        teacher.setDatetime(currentTime);
-                                        teacher.save();
+                                if(teacher.getDatetime()==null){
+                                    //appSector.setM_datetime("2018-3-29 11:00:00 ");
+                                    appSector.setM_datetime("1990-11-11 11:11:11 ");
+                                    appSector.WriteBizDataToSector();
+                                    teacher.setDatetime(new Date());
+                                    teacher.setCardno(cno);
+                                    teacher.save();
+                                }
+                                if(datetime4.getYear()==90){
+                                    Toast.makeText(getApplicationContext(), "白卡，未记录信息！", Toast.LENGTH_SHORT).show();
+                                    System.out.println("白卡，未记录信息！");
+                                    editDateTime.setText("");
+                                    editName.setText("");
+                                    editTid.setText("");
+                                }else {
+                                    if (datetime2.equals(datetime4)) {
+                                        if ((currentTime.getTime() - starttime1.getTime() > 0 && endtime1.getTime() - currentTime.getTime() > 0)||
+                                                currentTime.getTime() - starttime2.getTime() > 0 && endtime2.getTime() - currentTime.getTime() > 0||
+                                                currentTime.getTime() - starttime3.getTime() > 0 && endtime3.getTime() - currentTime.getTime() > 0||
+                                                currentTime.getTime() - starttime4.getTime() > 0 && endtime4.getTime() - currentTime.getTime() > 0||
+                                                currentTime.getTime() - starttime5.getTime() > 0 && endtime5.getTime() - currentTime.getTime() > 0) {
+                                            if ((datetime1.getHours() - datetime3.getHours() > 3)) {
+                                                Toast.makeText(getApplicationContext(), "刷卡成功", Toast.LENGTH_SHORT).show();
+                                                System.out.println("刷卡成功");
+                                                appSector.setM_datetime(lasttime);
+                                                appSector.WriteBizDataToSector();
+                                                teacher.setDatetime(currentTime);
+                                               // DataSupport.updateAll(com.example.administrator.test.Model.Teacher.class,);
+                                                teacher.save();
+                                                if (datetime1.getHours() - datetime3.getHours() == 3) {
+                                                    if (datetime1.getMinutes() - datetime3.getMinutes() > 0) {
+                                                        Toast.makeText(getApplicationContext(), "刷卡成功", Toast.LENGTH_SHORT).show();
+                                                        System.out.println("刷卡成功");
+                                                        appSector.setM_datetime(lasttime);
+                                                        appSector.WriteBizDataToSector();
+                                                        teacher.setDatetime(currentTime);
+                                                        teacher.setCardno(cno);
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "您已经刷过一次了！", Toast.LENGTH_SHORT).show();
+                                                        System.out.println("您已经刷过一次了！");
+                                                    }
+                                                }
+                                            }
+                                        } else{
+                                            Toast.makeText(getApplicationContext(), "您当前不在就餐时间段！", Toast.LENGTH_SHORT).show();
+                                            System.out.println("您当前不在就餐时间段！");
+                                        }
+                                }else {
+                                        if ((datetime3.getTime() - datetime5.getTime()) > 0 && datetime6.getTime() - datetime3.getTime() > 0) {
+                                            Toast.makeText(getApplicationContext(), "您已经刷过一次卡了", Toast.LENGTH_SHORT).show();
+                                            System.out.println("您已经刷过一次卡了");
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "刷卡成功", Toast.LENGTH_SHORT).show();
+                                            System.out.println("刷卡成功");
+                                            appSector.setM_datetime(lasttime);
+                                            appSector.WriteBizDataToSector();
+                                            teacher = CardInfoBiz.fetchTeacherinfo(cno);
+                                            teacher.setDatetime(currentTime);
+                                            teacher.save();
+                                        }
                                     }
                                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                               /*  if (datetime22.equals(datetime3)) {
                                     System.out.println("满足条件！");
                                     if ((datetime.getTime() - strbeginDate.getTime()) > 0 && (strendDate.getTime() - datetime.getTime()) > 0) {
@@ -378,40 +428,14 @@ public class Main2Activity extends AppCompatActivity  implements  View.OnClickLi
                                     System.out.println("当前时间不在范围内");
                                 }
                             }else
-
-                            {
-                                System.out.println("满足条件");
-                            }*/
-                        /*if(datetime.getTime()-strbeginDate.getTime() < 0 && (strendDate.getTime() - datetime.getTime()) < 0) {
-                            if ((currentTime.getTime() - strbeginDate.getTime()) > 0 && (strendDate.getTime() - currentTime.getTime()) > 0) {
-                                cardinfo.setDatetime(currentTime);
-                                cardinfo.save();
-                                Toast.makeText(getApplicationContext(), "当前时间在范围内", Toast.LENGTH_LONG).show();
-                                System.out.println("当前时间在范围内");
-                            } else {
-                                System.out.println("当前时间不在范围内");
-                            }
-                        }else{
-                            Toast.makeText(getApplicationContext(), "您已经刷过一次卡了！请勿重复刷卡", Toast.LENGTH_LONG).show();
-                        }*/
-                              //  AppSector appSector = new AppSector(intSector,Long.valueOf(cardno),tag,keyA,mfcintent,mfc);
-                           //     appSector.setM_datetime(currentTime);
-
-                      //  cardBizBase.RealseCardByApp(appSector);
-                      //  System.out.println("时间杀杀杀"+cardBizBase.getAppSector().getM_datetime());
-
-                        //cardBizBase.writeCardCommonSector(commonSector);
-                        //CardBizBase cardBizBase=new CardBizBase(0,16,tag,mfcintent,mfc,Long.valueOf(cardno));
-                       // System.out.println("时间"+commonSector1.getM_carddatetime());
-
+*/
                         com.example.administrator.test.Model.Teacher teacher = new com.example.administrator.test.Model.Teacher();
                         String cardid = String.valueOf(cardno);
                          List<com.example.administrator.test.Model.Teacher> teachers = DataSupport.where("cardno=?",cardid).find(com.example.administrator.test.Model.Teacher.class);
                         editName = findViewById(R.id.editName);
-                        editPhoto = findViewById(R.id.editPhoto);
                         String name = teachers.get(0).getName();
                         editName.setText(name);
-                        editDateTime.setText(appSector.getM_datetime());
+                        editDateTime.setText(appSector.getM_datetime().toString());
                         //editPhoto.setText(photo);
 
                     }
@@ -443,6 +467,26 @@ public class Main2Activity extends AppCompatActivity  implements  View.OnClickLi
         //replaceLayout( R.id.content, cardInFrag, true);
 
     }
+    private void initMediaPlayer() {
+
+        //获取mp3文件的路径
+        File file = new File(Environment.getExternalStorageDirectory(),"success.mp3");
+        try {
+            audioMgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            // 获取最大音乐音量
+            audioMgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            //float max=audioMgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+           // mediaPlayer.setVolume(1,1);
+            //mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC );
+            mediaPlayer.setVolume(1.0f, 1.0f);
+            mediaPlayer.setDataSource(file.getPath()); //为播放器设置mp3文件的路径
+            mediaPlayer.prepareAsync();
+           // mediaPlayer.prepare(); //做好准备
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void getWebPosDefine(int winno) {
         WebPosDefineBiz.GetWebPosDefine(winno,mConnectivityReceiver.systemwcc, new WebPosDefineNotify() {
             @Override
@@ -485,7 +529,6 @@ public class Main2Activity extends AppCompatActivity  implements  View.OnClickLi
                     String Id = editTid.getText().toString();
                     editName = findViewById(R.id.editName);
                     String Name = editName.getText().toString();
-                    editPhoto = findViewById(R.id.editPhoto);
                     String Photo = editPhoto.getText().toString();
 
                     String str=result.data.get(0).toString();
@@ -547,7 +590,6 @@ public class Main2Activity extends AppCompatActivity  implements  View.OnClickLi
                     String str=result.data.get(0).toString();
                     Teacher teacher= JSON.parseObject(str, Teacher.class);
                     editName = findViewById(R.id.editName);
-                    editPhoto = findViewById(R.id.editPhoto);
                     String Name = editName.getText().toString();
                     String Photo = editPhoto.getText().toString();
                     teacher.setName(Name);

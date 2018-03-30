@@ -64,17 +64,10 @@
                     android:text="姓名" />
 
                 <EditText
-                    android:id="@+id/editText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="4"
-                    android:inputType="textPersonName"
-                    android:text="照片" />
-                <EditText
                     android:id="@+id/editText4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ems="4"
+                    android:ems="6"
                     android:inputType="textPersonName"
                     android:text="最近刷卡时间" />
             </TableRow>
@@ -104,21 +97,12 @@
                     android:textSize="15sp" />
 
                 <EditText
-                    android:id="@+id/editPhoto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:ems="4"
-                    android:text=""
-                    android:textSize="15sp" />
-                <EditText
                     android:id="@+id/editDateTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:ems="8"
+                    android:ems="12"
                     android:text=""
                     android:textSize="15sp" />
             </TableRow>
